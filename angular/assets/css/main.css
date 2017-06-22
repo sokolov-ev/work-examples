@@ -1,0 +1,146 @@
+/*various*/
+.parsed-text {
+    width: 100%;
+    height: 200px;
+}
+.question-input {
+    width: 100%;
+}
+.loading {
+	background: url('../images/loading.gif');
+}
+.approving {
+	color: #0ff;
+}
+.success {
+	color: #0f0;
+}
+.field-required {
+    border: 1px solid #f00;
+}
+.ng-enter {
+    transition:0.1s linear all;
+} 
+.ng-leave {
+    transition:0.1s linear all;
+} 
+/*end various*/
+
+
+
+/*containers*/
+.images-list {
+    margin: 0 auto;
+}
+/*overload skeleton class property*/
+.container {
+    max-width: 1420px;
+}
+/*end containers*/
+
+
+
+
+/*buttons*/
+.button.remove {
+    color: #fff;
+    background-color: #ef4000;
+    border-color: #ef4000;
+}
+.button.remove:hover {
+    background-color: #d03d06;
+    border-color: #d03d06;
+}
+/*end buttons*/
+
+
+
+
+/*image components*/
+.preview-container {
+    position: relative;
+}
+.finded-item {
+    display: inline-block;
+    margin: 5px;
+}
+a[fancyboxable] {
+    text-decoration: none;
+}
+/*TODO: On approve page make width 600px+*/ 
+.image-for-approve-preview {
+    position: relative;
+    height: 500px;
+    width: 800px;
+    border: 2px solid rgba(0,0,0,0);
+}
+.image-for-approve-preview.checked {
+    border-color: green;
+}
+.image-for-approve-preview.unchecked {
+    border-color: orange;
+}
+.image-for-approve-preview.wrong {
+    border-color: red;
+}
+/*.image-for-approve-preview.fishily:after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #49c;
+}*/
+.fishily {
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    z-index: 1;
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    border-radius: 3px;
+    background: center no-repeat rgba(200,200,200,0.3);
+    background-size: contain;
+}
+.fishily:hover {
+    cursor: pointer;
+}
+.fishily.approved {
+    background-image: url("../images/approved.png");
+}
+.fishily.disapproved {
+    background-image: url("../images/disapproved.png");
+}
+/*end image components*/
+
+
+
+
+/*media queries*/
+@media screen and (max-width: 1150px) {
+    .images-list {
+        text-align: center;
+    }
+}
+/* end media queries*/
+
+.thumbnail {
+    width: 450px;
+    height: 300px;
+    background-color: #fff;
+    vertical-align: middle;
+    text-align: center;
+    display: table-cell;
+}
+
+.thumbnail > img {
+    max-width: 450px;
+    max-height: 300px;
+}
+
+.navbar {
+  border-radius: 0 0 4px 4px !important;
+}

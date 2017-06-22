@@ -1,0 +1,24 @@
+.questions-page .table tr > td:first-child {
+  max-width: 170px;
+}
+
+.questions-page .text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.table th[st-sort],
+.click-block {
+  cursor: pointer;
+}
+
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+.st-sort-descent:before {
+  content: '\25BC';
+}

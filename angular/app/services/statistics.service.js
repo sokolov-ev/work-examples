@@ -5,19 +5,52 @@
         .module('app')
         .factory('Statistics', Statistics);
 
-    Statistics.$inject = ['$resource', 'appConfig'];
+    Statistics.$inject = ['$resource', 'config'];
 
-    function Statistics($resource, appConfig) {
+    function Statistics($resource, config) {
 
-        return $resource(appConfig.apiRootUrl + '/api/statistics/:controller/:id',
+        return $resource(config.url + '/statistic/:controller/:id',
         {
             controller : '@controller',
             id : '@id'
         },
         {
-            get: {
-                method: 'GET',
-            },            
+            getAllStatistics: {
+                method: 'POST',
+                params: {
+                    controller: 'all-statistics',
+                }
+            },
+            getProjectPeriod: {
+                method: 'POST',
+                params: {
+                    controller: 'period',
+                }
+            },
+            getProjectTotal: {
+                method: 'POST',
+                params: {
+                    controller: 'total',
+                }
+            },
+            getGeneralStatistics: {
+                method: 'POST',
+                params: {
+                    controller: 'general-statistics',
+                }
+            },
+            setOffline: {
+                method: 'POST',
+                params: {
+                    controller: 'set-offline'
+                }
+            },
+            removeStat: {
+                method: 'POST',
+                params: {
+                    controller: 'delete'
+                }
+            },
         });
     }
 })();

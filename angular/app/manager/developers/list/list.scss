@@ -1,0 +1,24 @@
+.table {
+  th[st-sort] { cursor: pointer; }
+}
+
+.st-sort-ascent:before{
+  content: '\25B2';
+}
+
+.st-sort-descent:before{
+  content: '\25BC';
+}
+
+.content-header > h1 {
+  width: 50%;
+  display: inline-block;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+    line-height: 1;
+}
+
+.ui-select-multiple.ui-select-bootstrap input.ui-select-search {
+    width: 100% !important;
+}

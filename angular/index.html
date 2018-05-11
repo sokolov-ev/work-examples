@@ -1,42 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app" ng-cloak>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>Upwork testing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title ng-bind="Page.getTitle()">Dashboard</title>
 
     <base href="/">
 
-    <link rel="stylesheet" type="text/css" href="/static/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/assets/css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="/static/assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/AdminLTE/dist/css/AdminLTE.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/AdminLTE/dist/css/skins/skin-black.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/angular-ui-select/dist/select.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 
     <!-- inject:css -->
-    <link rel="stylesheet" type="text/css" href="/static/app/editor/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/app/quaere/style.css"/>
     <!-- endinject -->
 </head>
-<body ng-app="app">
-    <div ui-view> </div>
+<body ng-class="Page.getClasses()" ui-view>
 
-    <!-- scripts -->
-    <script type="text/javascript" src="/static/assets/js/vendor.js"></script>
+</body>
+    <script type="text/javascript" src="/assets/js/vendor.js"></script>
+
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script type="text/javascript" src="/bower_components/AdminLTE/dist/js/app.js"></script>
+    <script type="text/javascript" src="/bower_components/moment/moment.js"></script>
+    <script type="text/javascript" src="/bower_components/moment/locale/ru.js"></script>
+    <script type="text/javascript" src="/assets/js/zoom.js"></script>
 
     <!-- inject:js -->
-    <script type="text/javascript" src="/static/app/app.js"></script>
-    <script type="text/javascript" src="/static/app/editor/editor.controller.js"></script>
-    <script type="text/javascript" src="/static/app/editor/editor.js"></script>
-    <script type="text/javascript" src="/static/app/layout/layout.js"></script>
-    <script type="text/javascript" src="/static/app/quaere/quaere.controller.js"></script>
-    <script type="text/javascript" src="/static/app/quaere/quaere.js"></script>
-    <script type="text/javascript" src="/static/app/questions/questions.controller.js"></script>
-    <script type="text/javascript" src="/static/app/questions/questions.js"></script>
-    <script type="text/javascript" src="/static/app/services/question.service.js"></script>
-    <script type="text/javascript" src="/static/app/services/statistics.service.js"></script>
-    <script type="text/javascript" src="/static/app/services/testing.service.js"></script>
-    <script type="text/javascript" src="/static/app/statistics/statistics.controller.js"></script>
-    <script type="text/javascript" src="/static/app/statistics/statistics.js"></script>
+    <script src="/app/app.js"></script>
+    <script src="/app/routes.js"></script>
+    <script src="/app/directives/confirm-password.directive.js"></script>
+    <script src="/app/directives/refresh-table.directive.js"></script>
+    <script src="/app/filters/tohours.filter.js"></script>
+    <script src="/app/filters/unix-tohours.filter.js"></script>
+    <script src="/app/layouts/initlayout.controller.js"></script>
+    <script src="/app/login/login.controller.js"></script>
+    <script src="/app/services/auth.service.js"></script>
+    <script src="/app/services/date-time.service.js"></script>
+    <script src="/app/services/page.service.js"></script>
+    <script src="/app/services/project.service.js"></script>
+    <script src="/app/services/statistics.service.js"></script>
+    <script src="/app/services/user.service.js"></script>
+    <script src="/app/developer/counter/counter.controller.js"></script>
+    <script src="/app/manager/statistics/statisticsManager.controller.js"></script>
+    <script src="/app/administrator/projects/list/list.controller.js"></script>
+    <script src="/app/administrator/projects/view/view.controller.js"></script>
+    <script src="/app/administrator/users/general-statistics/general-statistics.controller.js"></script>
+    <script src="/app/administrator/users/list/list.controller.js"></script>
+    <script src="/app/administrator/users/projects/projects.controller.js"></script>
+    <script src="/app/administrator/users/statistics/statistics.controller.js"></script>
+    <script src="/app/developer/projects/list/list.controller.js"></script>
+    <script src="/app/developer/projects/view/view.controller.js"></script>
+    <script src="/app/manager/developers/list/list.controller.js"></script>
+    <script src="/app/manager/developers/projects/projects.controller.js"></script>
+    <script src="/app/manager/developers/workdiary/workdiary.controller.js"></script>
+    <script src="/app/manager/projects/list/list.controller.js"></script>
+    <script src="/app/manager/projects/view/view.controller.js"></script>
     <!-- endinject -->
-</body>
 </html>

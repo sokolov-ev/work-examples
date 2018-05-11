@@ -1,0 +1,143 @@
+<div class="project-view">
+    <section class="content-header">
+        <h1 ng-bind="Page.getTitle()">
+            Проект
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="admin.users">
+                    Список пользователей
+                </a>
+            </li>
+            <li>
+                <a ui-sref="admin.user-projects({id: AdminViewStatistics.developer.id})" ng-bind="AdminViewStatistics.developer.name">
+                    Пользователь
+                </a>
+            </li>
+            <li class="active" ng-bind="Page.getTitle()">
+                Проект
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body">
+                <div class="w-controls">
+                    <div class="w-date__picker">
+                        <div class="b-date__picker">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-fw fa-calendar"></i>
+                                </div>
+
+                                <input
+                                    id="datepicker"
+                                    type="text"
+                                    class="form-control"
+                                    data-date-end-date="0d">
+                            </div><!--input-group-->
+                        </div><!--b-date__picker-->
+
+                        <a href="javascript: void(0);" class="to-day" ng-click="AdminViewStatistics.setToDay()">Сегодня</a>
+                    </div><!--w-date__picker-->
+                </div><!--w-controls-->
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="w-time">
+                    <div class="b-time">
+                        За неделю:
+                        <b class="total">
+                            {{ AdminViewStatistics.work.week | secondsIntoHours }}
+                            <span class="text-muted">(40 of week)</span>
+                        </b>
+
+                        <a href="javascript: void(0);" class="to-day-refresh" ng-click="AdminViewStatistics.reload()">
+                            <i class="fa fa-fw fa-refresh"></i>
+                        </a>
+                    </div>
+
+                    <div class="b-time pull-right">
+                        <i class="b-swatch b-tracked-swatch"></i>
+                        За день: <strong>{{ AdminViewStatistics.today | secondsIntoHours }}</strong>
+                    </div>
+
+                    <div class="b-time pull-right">
+                        <i class="b-swatch b-manual-swatch"></i>
+                        Добавлено менеджером: <b>{{ AdminViewStatistics.offline.offlineTime | secondsIntoHours }}</b>
+
+                        <button class="btn btn-success btn-xs add-time" data-toggle="collapse" data-target="#addTimeBlock">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> Добавить
+                        </button>
+                    </div>
+                </div><!--w-time-->
+            </div>
+
+            <div class="box-body collapse" id="addTimeBlock">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="Введите время в минутах" ng-model="AdminViewStatistics.offline.time">
+                    <span class="input-group-btn">
+                        <button type="button"
+                                class="btn btn-default btn-flat"
+                                ng-class="{'btn-danger' : AdminViewStatistics.offline.error}"
+                                ng-click="AdminViewStatistics.addOfflineTime()">
+                            Ок
+                        </button>
+                    </span>
+                </div>
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="box box-success" ng-show="AdminViewStatistics.statistics.length">
+            <div class="box-body">
+
+                <div class="w-snaps__content">
+                    <div class="w-snaps__grid">
+                        <div class="w-row__grid w-clear" ng-repeat="stat in AdminViewStatistics.statistics">
+
+                            <div class="b-hour pull-left">
+                                <span>{{ stat.hour }}</span>
+                            </div>
+
+                            <div class="b-snapshots-row pull-left">
+                                <div ng-repeat="item in stat.minute track by $index">
+                                    <div class="col-xs-2" ng-if="item">
+                                        <div class="b-snapshot">
+                                            <div class="snapshot__image">
+                                                <img class="img-responsive" ng-src="/screenshots/{{item.image}}">
+                                            </div><!--snapshot__image-->
+
+                                            <footer class="w-snapshot__footer">
+                                                <span class="b-activiti__time">{{ item.save_time | unixIntoHours }}</span>
+
+                                                <div class="activity">
+                                                    <i class="fa fa-keyboard-o" aria-hidden="true"></i> {{ item.keyboard }}
+                                                    <i class="fa fa-mouse-pointer" aria-hidden="true"></i> {{ item.mouse }}
+                                                </div>
+                                                <!--b-activiti__common-->
+                                            </footer><!--w-snapshot__footer-->
+                                        </div><!--b-snapshot-->
+                                    </div><!--col-->
+
+                                    <div class="col-xs-2" ng-if="!item">
+                                        <div class="b-snapshot empty__snapshot"></div><!--b-snapshot-->
+                                    </div><!--col-->
+
+                                </div>
+                            </div><!--b-snapshots-row-->
+
+                        </div><!--w-row__grid-->
+
+                    </div><!--w-snaps__grid-->
+                </div><!--w-snaps__content-->
+
+            </div><!--box-body-->
+        </div><!--box-->
+
+    </section><!--content-->
+</div>

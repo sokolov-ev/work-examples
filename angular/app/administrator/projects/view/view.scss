@@ -1,0 +1,4 @@
+.flex { display: flex; }
+.flex > .select-user { flex: 1; padding: 0; }
+.flex > .btn-wrap { flex: 0 auto; }
+.flex > .btn-wrap > .btn { border-radius: 0; }

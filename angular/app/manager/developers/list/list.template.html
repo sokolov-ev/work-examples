@@ -1,0 +1,85 @@
+<div class="manager-developers">
+    <section class="content-header">
+        <h1>
+            Список программистов
+            <small>demo</small>
+        </h1>
+
+        <button type="button"
+                class="btn btn-success btn-sm pull-right"
+                data-toggle="modal"
+                data-target="#createDeveloper"
+                ng-click="Developers.clearUser()">
+                    Добавить программиста
+        </button>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table st-table="Developers.developers" st-pipe="Developers.ajaxFilter" class="table table-hover table-striped table-bordered" refresh-table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th st-sort="last_name">Фамилия</th>
+                            <th st-sort="first_name">Имя</th>
+                            <th st-sort="email">E-mail</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                        <tr>
+                            <th> </th>
+                            <th><input class="form-control" st-search="last_name"/></th>
+                            <th><input class="form-control" st-search="first_name"/></th>
+                            <th><input class="form-control" st-search="email"/></th>
+                            <th>
+                                <select class="form-control" st-search="type" />
+                                    <option value="all" selected>Все</option>
+                                    <option value="my">Мои</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="developer in Developers.developers">
+                            <td>{{ $index + 1 }}</td>
+                            <td class="selected-object" ui-sref="manager.developer-work-diary({id: developer.id})">
+                                {{ developer.last_name }}
+                            </td>
+                            <td class="selected-object" ui-sref="manager.developer-work-diary({id: developer.id})">
+                                {{ developer.first_name }}
+                            </td>
+                            <td class="selected-object" ui-sref="manager.developer-work-diary({id: developer.id})">
+                                {{ developer.email }}
+                            </td>
+
+                            <td class="text-center">
+                                <button class="btn btn-success btn-xs"
+                                        ng-click="Developers.editUser(developer)"
+                                        data-toggle="modal"
+                                        data-target="#editDeveloper">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs"
+                                        ng-click="Developers.setUser(developer)"
+                                        data-toggle="modal"
+                                        data-target="#deleteDeveloper">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- loading a modal window for adding a developer -->
+    <div ui-view="devCreate"></div>
+    <!-- loading a modal window for editing a developer -->
+    <div ui-view="devEdit"></div>
+    <!-- loading a modal window for removal a developer -->
+    <div ui-view="devDelete"></div>
+
+</div><!--container-fluid-->

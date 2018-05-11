@@ -1,0 +1,37 @@
+/* laout user, manager */
+.wrapper {
+  .title {
+    margin: 0 15px;
+    font-size: 30px;
+    color: #fff;
+  }
+  .width-100 {
+    width: 100%;
+  }
+}
+
+/* laout centered */
+.container-center {
+  position: fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  display:table;
+
+  .container-center-block {
+    display: table-cell;
+    vertical-align: middle;
+
+    .horizontal-block {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      float: none;
+
+      .box {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

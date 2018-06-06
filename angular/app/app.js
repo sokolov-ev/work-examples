@@ -6,7 +6,6 @@
         .module('app', [
             'ui.router',
             'ngResource',
-            'ngStorage',
             'ngFlash',
             'ngMessages',
             'smart-table',
@@ -41,13 +40,14 @@
 
         localStorageServiceProvider.setPrefix('teamgeist');
 
-        function requestInterceptor($q, $localStorage, Flash, $rootScope) {
+        function requestInterceptor($q, Flash, $rootScope, localStorageService) {
             return {
                 request: function(config) {
                     config.headers = config.headers || {};
+                    let token = localStorageService.get('token');
 
-                    if ($localStorage.token) {
-                        config.headers.Authorization = 'Bearer ' + $localStorage.token;
+                    if (token) {
+                        config.headers.Authorization = 'Bearer ' + token;
                     }
 
                     return config;
@@ -66,7 +66,7 @@
                             Flash.create('danger', '<strong>Ошибка!</strong> Вы не авторизованы');
                         }
 
-                        delete $localStorage.token;
+                        localStorageService.remove('token');
 
                         return $rootScope.$state.go('login');
                     }

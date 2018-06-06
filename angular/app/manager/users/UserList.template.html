@@ -1,0 +1,89 @@
+<div class="manager-developers">
+    <section class="content-header">
+        <h1>
+            Список программистов
+            <small>demo</small>
+        </h1>
+
+        <button type="button"
+                class="btn btn-success btn-sm pull-right"
+                data-toggle="modal"
+                data-target="#createDeveloper"
+                ng-click="vm.clearUser()">
+                    Добавить программиста
+        </button>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table st-table="vm.developers" st-pipe="vm.ajaxFilter" class="table table-hover table-striped table-bordered" refresh-table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th st-sort="last_name" st-sort-default="true">Фамилия</th>
+                            <th st-sort="first_name">Имя</th>
+                            <th st-sort="email">E-mail</th>
+                            <th>Проекты</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                        <tr>
+                            <th> </th>
+                            <th><input class="form-control" st-search="last_name"/></th>
+                            <th><input class="form-control" st-search="first_name"/></th>
+                            <th><input class="form-control" st-search="email"/></th>
+                            <th></th>
+                            <th>
+                                <select class="form-control" st-search="type" />
+                                    <option value="all" selected>Все</option>
+                                    <option value="my">Мои</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="developer in vm.developers">
+                            <td>{{ $index + 1 }}</td>
+                            <td class="selected-object" ng-click="vm.viewWorkdiary(developer.id, developer.role, developer.projects)">
+                                {{ developer.last_name }}
+                            </td>
+                            <td class="selected-object" ng-click="vm.viewWorkdiary(developer.id, developer.role, developer.projects)">
+                                {{ developer.first_name }}
+                            </td>
+                            <td class="selected-object" ng-click="vm.viewWorkdiary(developer.id, developer.role, developer.projects)">
+                                {{ developer.email }}
+                            </td>
+                            <td class="selected-object" ng-click="vm.viewUserProjects(developer.id, developer.projects)" title="{{developer.projects_tooltip}}">
+                                {{ developer.projects_title }}
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-success btn-xs"
+                                        ng-click="vm.editUser(developer)"
+                                        data-toggle="modal"
+                                        data-target="#editDeveloper">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs"
+                                        ng-click="vm.setUser(developer)"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- loading a modal window for adding a developer -->
+    <div ui-view="devCreate"></div>
+    <!-- loading a modal window for editing a developer -->
+    <div ui-view="devEdit"></div>
+    <!-- loading a modal window for removal a developer -->
+    <div ui-view="devDelete"></div>
+
+</div><!--container-fluid-->

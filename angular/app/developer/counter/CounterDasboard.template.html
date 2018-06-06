@@ -1,0 +1,93 @@
+<div class="project-list">
+    <section class="content-header">
+        <h1>
+            Десктоп приложение
+            <small>demo</small>
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <ul class="timeline">
+
+            <li class="time-label">
+                <span class="bg-aqua-active">
+                    May 23, 2018
+                </span>
+            </li>
+
+            <li>
+                <div class="timeline-item">
+                    <!-- <span class="time"><i class="fa fa-clock-o"></i> 12:05</span> -->
+
+                    <h3 class="timeline-header">Teamgeist v.2.0</h3>
+
+                    <div class="timeline-body">
+                        <ul>
+                            <li>Добавлено версионирование приложений;</li>
+                            <li>Добавлено сворачивание приложения в трей;</li>
+                            <li>Добавлено отображение в трее отработанного времени за день, на проекте. (Для <strong>MacOS</strong>, для <strong>Linux</strong> в popup при наведении на значок в трее);</li>
+                            <li>Добавлено диалоговое окно с подсказкой для заполнения <code>Memo</code>;</li>
+                            <li>Изменена логика обработки и сохранения статистики;</li>
+                            <li>Добавлена версия приложения для Ubuntu 14;</li>
+                        </ul>
+                        <br/>
+                        <strong class="text-danger">Важно!</strong><br/>
+                        <span>Все предыдущие версии счетчика заблокированы!</span>
+                    </div>
+
+                    <hr style="margin: 0;" />
+
+                    <div class="timeline-footer text-right">
+                        <strong>Скачать приложение: </strong>
+                        <a class="btn btn-success btn-xs"
+                           target="_self"
+                           ng-href="{{ vm.url + '/clients/Teamgeist_2.0_amd64_16.deb' }}"
+                           download="Teamgeist_2.0_amd64_16.deb">
+                            Ubuntu 16 (64x)
+                        </a>
+
+                        <a class="btn btn-success btn-xs"
+                           target="_self"
+                           ng-href="{{ vm.url + '/clients/Teamgeist_2.0_amd64.dmg' }}"
+                           download="Teamgeist_2.0_amd64.dmg">
+                            MacOS
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="time-label">
+                <span class="bg-aqua-active">
+                    May 11, 2018
+                </span>
+            </li>
+
+            <li>
+                <div class="timeline-item">
+                    <h3 class="timeline-header">Teamgeist v.1.9.10</h3>
+
+                    <div class="timeline-body">
+                        <ul>
+                            <li>Добавлен футер показывающий текущую версию расширения;</li>
+                            <li>Добавлен <code>Memo</code> описание чем сейчас занимается разработчик. Без заполнения <code>Memo</code> невозможно будет запустить счетчик;</li>
+                            <li>Добавлено отображение времени последнего скриншота;</li>
+                            <li>Добавлены подсказки при авторизации;</li>
+                            <li>Добавлена версия приложения для MacOS;</li>
+                        </ul>
+                        <br/>
+                        <strong class="text-danger">Важно!</strong><br/>
+                        <span>В следующих версиях устаревшие версии десктоп приложения будут блокироваться.</span>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+
+        </ul>
+
+    </section>
+</div>

@@ -1,0 +1,87 @@
+<div class="modal fade" id="editDeveloper" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Редактирование программиста</h4>
+            </div>
+            <div class="modal-body">
+
+               <form ng-submit="vm.editForm(vm.developer)" name="editForm" id="editForm">
+                    <div class="form-group" ng-class="{ 'has-error': editForm.email.$touched && editForm.email.$invalid }">
+                        <label>E-mail:</label>
+
+                        <input type="email" class="form-control" name="email" ng-model="vm.developer.email" required>
+
+                        <div ng-messages="editForm.email.$touched && editForm.email.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.first_name.$touched && editForm.first_name.$invalid }">
+                        <label>Имя:</label>
+
+                        <input type="text" class="form-control" name="first_name" ng-model="vm.developer.first_name" required>
+
+                        <div ng-messages="editForm.first_name.$touched && editForm.first_name.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.last_name.$touched && editForm.last_name.$invalid }">
+                        <label>Фамилия:</label>
+
+                        <input type="text" class="form-control" name="last_name" ng-model="vm.developer.last_name" required>
+
+                        <div ng-messages="editForm.last_name.$touched && editForm.last_name.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.project.$touched && editForm.project.$invalid }">
+                        <label>Проект:</label>
+
+                        <ui-select ng-model="vm.developer.Projects" theme="bootstrap" multiple>
+                            <ui-select-match placeholder="Выбирите проект...">
+                                {{ $item.name }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="project in vm.listProjects | filter:$select.search">
+                                {{ project.name }}
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <div ng-messages="editForm.project.$touched && editForm.project.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.password.$touched && editForm.password.$invalid }">
+                        <label>Пароль:</label>
+
+                        <input type="password" class="form-control" name="password" ng-model="vm.developer.password">
+
+                        <div ng-messages="editForm.password.$touched && editForm.password.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="submit" class="btn btn-success" form="editForm">
+                    Обновить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

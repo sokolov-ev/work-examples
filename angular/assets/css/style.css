@@ -55,3 +55,7 @@ body {
 .selected-object {
   cursor: pointer;
 }
+
+.ui-select-multiple.ui-select-bootstrap {
+  border-radius: 0 !important;
+}

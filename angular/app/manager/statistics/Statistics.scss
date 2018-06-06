@@ -1,0 +1,52 @@
+.general-statistics {
+  .table .row-center td,
+  .table .row-center th {
+    text-align: center;
+  }
+
+  .table {
+    .table-header th {
+      background-color: #eaeaea;
+    }
+
+    .day-of-calendar {
+      color: red;
+    }
+
+    .click-time-cell {
+      cursor: pointer;
+    }
+    .content-right {
+      text-align: right;
+    }
+  }
+
+}
+
+.select-week {
+  .datepicker-dropdown .datepicker-days tbody tr:hover {
+    background-color: #cfffbc;
+
+    td {
+      border-radius: 0;
+    }
+
+    td.day:hover,
+    td.focused {
+      background-color: #cfffbc;
+    }
+  }
+
+  td.font-bold {
+    font-weight: bold;
+  }
+  td.purple-color {
+    background-color: #f2aaff;
+  }
+  td.green-color {
+    background-color: #cfffbc;
+  }
+  td.yellow-color {
+    background-color: #fffabc;
+  }
+}

@@ -1,0 +1,106 @@
+<div class="project-list">
+    <section class="content-header">
+        <h1>
+            Список проектов
+            <small>demo</small>
+        </h1>
+
+        <button type="button"
+            class="btn btn-success btn-sm pull-right"
+            data-toggle="modal"
+            data-target="#createProject"
+            ng-click="vm.clearProject()">
+                Создать проект
+        </button>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table st-table="vm.projects" st-pipe="vm.ajaxFilter" class="table table-hover table-striped table-bordered" refresh-table>
+                    <thead>
+                        <tr>
+                            <th width="30">#</th>
+                            <th st-sort="name">Название</th>
+                            <th st-sort="description">Описание</th>
+                            <th st-sort="status">Статус</th>
+                            <th st-sort="type">Тип</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                        <tr>
+                            <th> </th>
+                            <th><input class="form-control" st-search="name"/></th>
+                            <th><input class="form-control" st-search="description"/></th>
+                            <th>
+                                <select class="form-control" st-search="status">
+                                    <option value=""> </option>
+                                    <option value="open">Открыт</option>
+                                    <option value="close">Закрыт</option>
+                                    <option value="delete">Удален</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-control" st-search="type">
+                                    <option value=""> </option>
+                                    <option value="internal">Внутренний</option>
+                                    <option value="external">Внешний</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-control" st-search="projects">
+                                    <option value="all" selected>Все</option>
+                                    <option value="my">Мои</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{ 'danger': project.status == 'delete' }" ng-repeat="project in vm.projects">
+                            <td>{{ $index + 1 }}</td>
+                            <td class="selected-object" ui-sref="manager.project-view({id: project.id})">
+                                {{ project.name }}
+                            </td>
+                            <td class="selected-object" ui-sref="manager.project-view({id: project.id})">
+                                {{ project.description }}
+                            </td>
+                            <td>
+                                <span ng-if="project.status == 'open'">Открыт</span>
+                                <span ng-if="project.status == 'close'">Закрыт</span>
+                                <span ng-if="project.status == 'delete'">Удален</span>
+                            </td>
+                            <td>
+                                <span ng-if="project.type == 'internal'">Внутренний</span>
+                                <span ng-if="project.type == 'external'">Внешний</span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-warning btn-xs"
+                                        ng-click="vm.setProject(project)"
+                                        data-toggle="modal"
+                                        data-target="#editProject">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs"
+                                        ng-click="vm.setProject(project)"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"
+                                        ng-show="project.status !== 'delete'">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- loading a modal window template to create a project -->
+    <div ui-view="projectCreate"></div>
+    <!-- loading a modal window template to editing a project -->
+    <div ui-view="projectEdit"></div>
+    <!-- loading a modal window template to deleting a project -->
+    <div ui-view="projectDelete"></div>
+
+</div><!--container-fluid-->

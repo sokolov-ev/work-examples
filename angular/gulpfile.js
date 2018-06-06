@@ -21,7 +21,6 @@ function vendorJs(gulp, plugins) {
             'bower_components/angular/angular.js',
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
-            'bower_components/ngstorage/ngStorage.js',
             'bower_components/angular-flash-alert/dist/angular-flash.js',
             'bower_components/angular-messages/angular-messages.js',
             'bower_components/angular-smart-table/dist/smart-table.js',

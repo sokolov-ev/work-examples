@@ -1,0 +1,184 @@
+<div class="project-view">
+    <section class="content-header">
+        <h1>
+            Статистика за день
+            <small>demo</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="developer.project-list">
+                    Список проектов
+                </a>
+            </li>
+            <li class="active" ng-bind="Page.getTitle()">
+                Статистика за день
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body">
+                <div class="w-controls">
+                    <div class="w-date__picker">
+                        <div class="b-date__picker">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-fw fa-calendar"></i>
+                                </div>
+
+                                <input
+                                    id="datepicker"
+                                    type="text"
+                                    class="form-control"
+                                    data-date-end-date="0d">
+                            </div><!--input-group-->
+                        </div><!--b-date__picker-->
+
+                        <a href="javascript: void(0);" class="to-day" ng-click="vm.setToDay()">Cегодня</a>
+                        <a href="javascript: void(0);" class="to-day" ng-click="vm.reloadStatOfWeek();">Обновить</a>
+                    </div><!--w-date__picker-->
+                </div><!--w-controls-->
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="box">
+            <div class="box-body">
+                <div class="w-time">
+                    <div class="b-time">
+                        За неделю:
+                        <b class="total">
+                            {{ vm.work.week | secondsIntoHours }}
+                        </b>
+                    </div>
+
+                    <div class="b-time">
+                        <i class="b-swatch b-tracked-swatch"></i>
+                        За день: <strong>{{ vm.totalTimeToDay | secondsIntoHours }}</strong>
+                    </div>
+
+                    <div class="b-time">
+                        <i class="b-swatch b-manual-swatch"></i>
+                        Добавлено менеджером: <b>{{ vm.work.offlineTime | secondsIntoHours }}</b>
+                    </div>
+
+                    <div class="b-time pull-right">
+                        Выбрано: <strong>{{vm.removeTime | secondsIntoHours}}</strong>
+                    </div>
+                </div><!--w-time-->
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="text-right" style="height: 30px;margin-bottom: 20px;" ng-if="vm.totalTimeToDay && vm.unlockDay">
+            <button type="button"
+                    class="btn btn-success btn-sm"
+                    data-toggle="modal"
+                    data-target="#removeStat"
+                    ng-click="vm.calculateRemoveStat();">
+                        Удалить
+            </button>
+
+            <button type="button"
+                    class="btn btn-success btn-sm"
+                    ng-click="vm.deselectAll();">
+                        Убрать выбор
+            </button>
+        </div>
+
+        <div class="box box-success" ng-show="vm.totalTimeToDay">
+            <div class="box-body">
+                <div class="w-snaps__content">
+                    <div class="w-snaps__grid">
+                        <div class="w-row__grid w-clear" ng-repeat="(key, data) in vm.statisticsOfDay">
+
+                            <div class="b-hour pull-left">
+                                <span>{{ key }}</span>
+                                <br/>
+                                <input type="checkbox"
+                                       name="key"
+                                       value="{{key}}"
+                                       ng-if="vm.unlockDay"
+                                       ng-model="vm.selectedHour[key]"
+                                       ng-click="vm.calculateRemoveHour(key);"
+                                       style="margin: 0;">
+                            </div>
+
+                            <div class="b-snapshots-row comment-row pull-left">
+                                <div ng-repeat="item in data track by $index" ng-if="item.offline.coll">
+                                    <div class="col-md-{{item.offline.coll}} stat-data {{item.offline.type}}">
+                                        {{item.offline.comment}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="b-snapshots-row pull-left">
+                                <div ng-repeat="item in data track by $index">
+                                    <div class="col-xs-2" ng-if="item.stat && item.stat[0]">
+                                        <div class="b-snapshot">
+                                            <div class="snapshot__image">
+                                                <img class="img-responsive" ng-if="item.stat[0].mode != 'manager'" ng-src="/screenshots/{{item.stat[0].image}}" on-error-src="">
+                                            </div>
+
+                                            <footer class="w-snapshot__footer" ng-if="item.stat[0].mode != 'manager'">
+                                                <input type="checkbox"
+                                                       name="item.stat[0].id"
+                                                       value="{{item.stat[0].id}}"
+                                                       ng-if="vm.unlockDay"
+                                                       ng-model="vm.selectedStats[item.stat[0].id]"
+                                                       ng-click="vm.calculateRemoveStat();vm.selectHours();"
+                                                       style="margin: 0;">
+
+                                                <span class="b-activiti__time pull-right">
+                                                    {{ item.stat[0].save_time | unixIntoHours }}
+                                                </span>
+                                            </footer>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-2" ng-if="!item.stat && !item.stat[0]">
+                                        <div class="b-snapshot empty__snapshot"></div>
+                                    </div>
+
+                                </div>
+                            </div><!--b-snapshots-row-->
+
+                        </div><!--w-row__grid-->
+
+                    </div><!--w-snaps__grid-->
+                </div><!--w-snaps__content-->
+
+            </div><!--box-body-->
+        </div><!--box-->
+
+    </section><!--content-->
+</div>
+
+<div class="modal fade" id="removeStat" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Предупреждение об удалении времени</h4>
+            </div>
+
+            <div class="modal-body">
+                Вы действительно хотите удалить: {{vm.removeTime | secondsIntoHours}}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="button" class="btn btn-danger" ng-disabled="!vm.removeTime" ng-click="vm.removeStat();">
+                    Удалить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

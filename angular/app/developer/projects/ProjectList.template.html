@@ -1,0 +1,35 @@
+<div class="project-list">
+    <section class="content-header">
+        <h1>
+            Список проектов
+            <small>demo</small>
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box" ng-class="{'box-success': project.status == 'open'}" ng-repeat="project in vm.projects">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ project.name }}</h3>
+
+                <div class="pull-right">
+                    <strong>
+                        {{ project.work_time | secondsIntoHours }}
+                        <span class="text-muted">(40 of week)</span>
+                    </strong>
+                </div>
+            </div>
+            <div class="box-body">
+                <span>{{ project.description }}</span>
+                <div class="pull-right">
+                    <strong>
+                        <a class="btn btn-success btn-xs" ui-sref="developer.workdiary({id: project.id})">
+                            Просмотреть статистику >>
+                        </a>
+                    </strong>
+                </div>
+            </div><!--box-body-->
+        </div><!--box-->
+    </section>
+</div><!--container-fluid-->

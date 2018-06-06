@@ -1,0 +1,77 @@
+<div class="modal fade" id="editProject" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Редактирование проекта</h4>
+            </div>
+            <div class="modal-body">
+
+               <form ng-submit="vm.editForm(vm.project)" name="editForm" id="editForm">
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.name.$touched && editForm.name.$invalid }">
+                        <label>Название:</label>
+
+                        <input type="text" class="form-control" name="name" ng-model="vm.project.name" required>
+
+                        <div ng-messages="editForm.name.$touched && editForm.name.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.description.$touched && editForm.description.$invalid }">
+                        <label>Описание:</label>
+
+                        <input type="text" class="form-control" name="description" ng-model="vm.project.description" required>
+
+                        <div ng-messages="editForm.description.$touched && editForm.description.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.status.$touched && editForm.status.$invalid }">
+                        <label>Статус:</label>
+
+                        <select class="form-control" name="status" ng-model="vm.project.status">
+                            <option value="open">Открыт</option>
+                            <option value="close">Закрыт</option>
+                            <option value="delete">Удален</option>
+                        </select>
+
+                        <div ng-messages="editForm.status.$touched && editForm.status.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': editForm.type.$touched && editForm.type.$invalid }">
+                        <label>Тип:</label>
+
+                        <select class="form-control" name="type" ng-model="vm.project.type">
+                            <option value="internal">Внутренний</option>
+                            <option value="external">Внешний</option>
+                        </select>
+
+                        <div ng-messages="editForm.type.$touched && editForm.type.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="submit" class="btn btn-warning" form="editForm">
+                    Обновить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

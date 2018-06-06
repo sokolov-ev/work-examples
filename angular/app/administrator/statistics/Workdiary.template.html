@@ -1,0 +1,284 @@
+<div class="project-view">
+    <section class="content-header">
+        <h1 ng-bind="Page.getTitle()">
+            Проект
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="manager.general-statistics">
+                    Статистика
+                </a>
+            </li>
+            <li class="active">
+                Рабочий дневник
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body">
+                <div style="display: flex;flex-direction: row;">
+
+                    <div class="input-group">
+                        <span class="input-group-addon" style="border-radius: 3px 0 0 3px;">
+                            <i class="fa fa-fw fa-calendar"></i>
+                        </span>
+                        <input id="datepicker" type="text" class="form-control" data-date-end-date="0d">
+                    </div>
+
+                    <select class="form-control" ng-model="vm.currentProjects" style="margin: 0 0 0 15px;">
+                        <option value="all">Все проекты</option>
+                        <option ng-repeat="project in vm.listProjects" ng-value="project.id">{{project.name}}</option>
+                    </select>
+
+                    <a href="javascript: void(0);" class="to-day" ng-click="vm.setToDay();">Сегодня</a>
+                    <a href="javascript: void(0);" class="to-day" ng-click="vm.reloadStatOfWeek();">Обновить</a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="w-time">
+                    <div class="b-time">
+                        За неделю:
+                        <b class="total">
+                            {{ vm.work.week | secondsIntoHours }}
+                        </b>
+                    </div>
+
+                    <div class="b-time">
+                        <i class="b-swatch b-tracked-swatch"></i>
+                        За день: <strong>{{ vm.totalTimeToDay | secondsIntoHours }}</strong>
+                    </div>
+
+                    <div class="b-time">
+                        <i class="b-swatch b-manual-swatch"></i>
+                        <span>
+                            Добавлено менеджером:
+                        </span>
+                        <strong>{{ vm.work.offlineTime | secondsIntoHours }}</strong>
+                    </div>
+                    <div class="b-time" ng-init="viewOfflineForm = false;" ng-click="viewOfflineForm = !viewOfflineForm;" style="color: #00a65a;font-weight: bold;cursor: pointer;">
+                        Добавить время
+                    </div>
+
+                    <div class="b-time pull-right">
+                        Выбрано: <strong>{{vm.removeTime | secondsIntoHours}}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-body" ng-show="viewOfflineForm">
+                <div class="input-group input-group-sm">
+                    <select class="form-control" ng-model="vm.offlineTime.project" style="width: 25%;">
+                        <option ng-repeat="project in vm.listProjects" ng-value="project.id">{{project.name}}</option>
+                    </select>
+                    <input type="time"
+                           class="form-control"
+                           style="width: 15%;"
+                           ng-model="vm.offlineTime.start"
+                           ng-value="vm.work.currentTime"
+                           min="{{'00:00' | date:'HH:mm'}}"
+                           min="{{'23:59' | date:'HH:mm'}}">
+
+                    <input type="number" class="form-control" title="Введите время в минутах" ng-model="vm.offlineTime.time" style="width: 7%;">
+                    <div class="form-group" ng-class="{'has-error' : vm.work.errorComment}">
+                        <input type="text" class="form-control input-sm" ng-model="vm.offlineTime.comment" style="width: 53%;" placeholder="Комментарий">
+                    </div>
+                    <span class="input-group-btn">
+                        <button type="button"
+                                class="btn btn-default btn-flat"
+                                ng-click="vm.clearOfflineForm();">
+                            Очистить
+                        </button>
+                        <button type="button"
+                                class="btn btn-default btn-flat"
+                                ng-class="{'btn-danger' : vm.work.error}"
+                                ng-click="vm.calculateOfflineStat();">
+                            Ок
+                        </button>
+                    </span>
+                </div>
+
+                <hr/>
+
+                <div>
+                    <div ng-repeat="row in vm.offlineArray" style="border-bottom: 1px solid #d4d3d3;padding: 3px 0;">
+                        <span style="margin-right: 25px;">{{row.whatTime}}</span>
+                        <span style="margin-right: 25px;">{{row.work_time / 60}} мин</span>
+                        <span style="margin-right: 25px;">{{row.comment}}</span>
+                        <span class="pull-right">
+                            <a href="javascript: void(0);" class="to-day" ng-click="vm.editOffline(row);">
+                                Редактировать
+                            </a>
+                        </span>
+                        <span class="pull-right">
+                            <a href="javascript: void(0);" class="to-day" ng-click="vm.removeOffline(row);" style="color: #d43f3a;">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="text-right" style="height: 30px;margin-bottom: 20px;" ng-show="vm.totalTimeToDay">
+            <button type="button"
+                    class="btn btn-success btn-sm"
+                    data-toggle="modal"
+                    data-target="#removeStat"
+                    ng-click="vm.calculateRemoveStat();">
+                        Удалить
+            </button>
+
+            <button type="button"
+                    class="btn btn-success btn-sm"
+                    ng-click="vm.deselectAll();">
+                        Убрать выбор
+            </button>
+        </div>
+
+        <div class="box box-success" ng-show="vm.totalTimeToDay">
+            <div class="box-body">
+                <div class="w-snaps__content">
+                    <div class="w-snaps__grid">
+                        <div class="w-row__grid w-clear" ng-repeat="(key, data) in vm.statisticsOfDay">
+
+                            <div class="b-hour pull-left">
+                                <span>{{ key }}</span>
+                                <br/>
+                                <input type="checkbox"
+                                       name="key"
+                                       value="{{key}}"
+                                       ng-model="vm.selectedHour[key]"
+                                       ng-click="vm.calculateRemoveHour(key);"
+                                       style="margin: 0;">
+                            </div>
+
+                            <div class="b-snapshots-row comment-row pull-left">
+                                <div ng-repeat="item in data track by $index" ng-if="item.offline.coll">
+                                    <div class="col-md-{{item.offline.coll}} stat-data {{item.offline.type}}">
+                                        {{item.offline.comment}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="b-snapshots-row pull-left">
+                                <div ng-repeat="item in data track by $index">
+                                    <div class="col-xs-2" ng-if="item.stat && item.stat[0]">
+                                        <div class="b-snapshot">
+                                            <div class="snapshot__image">
+                                                <img class="img-responsive" ng-if="item.stat[0].mode != 'manager'" ng-src="/screenshots/{{item.stat[0].image}}" on-error-src="">
+                                            </div>
+
+                                            <footer class="w-snapshot__footer">
+                                                <div class="pull-left">
+                                                    <div class="pull-left">
+                                                        <input type="checkbox"
+                                                           name="item.stat[0].id"
+                                                           value="{{item.stat[0].id}}"
+                                                           ng-model="vm.selectedStats[item.stat[0].id]"
+                                                           ng-click="vm.calculateRemoveStat();vm.selectHours();"
+                                                           style="margin: 5px 0 0;">
+                                                    </div>
+                                                    <div class="pull-left">
+                                                        <span style="font-size: 12px;margin-left: 3px;">
+                                                            {{ item.stat[0].save_time | unixIntoHours }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="activity pull-right" ng-if="item.stat[0].mode != 'manager'">
+                                                    <i class="fa fa-keyboard-o" aria-hidden="true" style="font-size: 15px;"></i>
+                                                    <span style="font-size: 13px;">{{ item.stat[0].keyboard }}</span>
+                                                    <i class="fa fa-mouse-pointer" aria-hidden="true" style="font-size: 12px;"></i>
+                                                    <span style="font-size: 13px;">{{ item.stat[0].mouse }}</span>
+                                                </div>
+
+                                                <!--
+                                                <div class="b-activiti__common b-activity__level-parent dropdown">
+                                                    <div class="b-activiti__common b-activity__level-value" style="width:50%"></div>
+                                                </div>
+                                                -->
+                                            </footer>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-2" ng-if="!item.stat && !item.stat[0]">
+                                        <div class="b-snapshot empty__snapshot"></div><!--b-snapshot-->
+                                    </div><!--col-->
+
+                                </div>
+                            </div><!--b-snapshots-row-->
+
+                        </div><!--w-row__grid-->
+
+                    </div><!--w-snaps__grid-->
+                </div><!--w-snaps__content-->
+
+            </div><!--box-body-->
+        </div><!--box-->
+
+    </section><!--content-->
+</div>
+
+
+<div class="modal fade" id="removeStat" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Предупреждение об удалении времени</h4>
+            </div>
+
+            <div class="modal-body">
+                Вы действительно хотите удалить: {{vm.removeTime | secondsIntoHours}}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="button" class="btn btn-danger" ng-disabled="!vm.removeTime" ng-click="vm.removeStat();">
+                    Удалить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="conflictOfflineStat" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Предупреждение!</h4>
+            </div>
+
+            <div class="modal-body">
+                Добовляемое оффлайн время конфликтует с онлайн временем...<br/>
+                Вы действительно хотите добавить оффлайн время?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="button" class="btn btn-success" ng-click="vm.setOfflineStat();">
+                    Добавить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

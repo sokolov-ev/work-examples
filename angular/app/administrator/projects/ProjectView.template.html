@@ -1,0 +1,147 @@
+<div class="project-view">
+    <section class="content-header">
+        <h1 ng-bind="Page.getTitle()">
+            Проект
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="admin.projects">
+                    Список проектов
+                </a>
+            </li>
+            <li class="active" ng-bind="Page.getTitle()">
+                Проект
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box" ng-class="{'box-success': vm.project.status == 'open'}">
+            <div class="box-header with-border">
+                <h3 class="box-title">Описание проекта</h3>
+
+                <div class="pull-right">
+                    <strong class="text-muted">
+                        <span ng-if="vm.project.type == 'internal'">(Внутренний)</span>
+                        <span ng-if="vm.project.type == 'external'">(Внешний)</span>
+                    </strong>
+                </div>
+            </div>
+            <div class="box-body">
+                {{ vm.project.description }}
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Добавить программиста на проект</h3>
+            </div>
+            <div class="box-body">
+
+                <div class="flex">
+                    <div class="select-user">
+                        <ui-select ng-model="vm.selectedUsers" theme="bootstrap" multiple>
+                            <ui-select-match placeholder="Выбирите программистов">
+                                {{ $item.first_name + ' ' + $item.last_name }}
+                            </ui-select-match>
+                            <ui-select-choices repeat="person in vm.allUsers | filter:$select.search">
+                                {{ person.first_name }} {{ person.last_name }}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn btn-success btn-sm" ng-click="vm.addUsers()">
+                            Добавить
+                        </button>
+                    </div>
+                </div>
+
+            </div><!--box-body-->
+        </div><!--box-->
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Список пользователей на проекте</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="30">#</th>
+                            <th>Имя - Фамилия</th>
+                            <th>Тип пользователя</th>
+                            <th>
+                                <select class="form-control input-sm" ng-model="vm.workTime" ng-change="vm.getTime()">
+                                    <option value="day">День</option>
+                                    <option value="week">Неделя</option>
+                                    <option value="month">Месяц</option>
+                                    <option value="all">За все время</option>
+                                </select>
+                            </th>
+                            <th class="text-right">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in vm.users">
+                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                <strong ng-if="user.role === 'developer'">
+                                    <a class="text-muted" ui-sref="admin.workdiary({id: user.id, project: vm.id})">
+                                        {{ user.first_name + ' ' + user.last_name }}
+                                    </a>
+                                </strong>
+                                <strong ng-if="user.role !== 'developer'">
+                                    {{ user.first_name + ' ' + user.last_name }}
+                                </strong>
+                            </td>
+                            <td>
+                                <span>{{vm.typeUsers[user.role]}}</span>
+                            </td>
+                            <td>{{ user.work_time | secondsIntoHours }}</td>
+                            <td class="text-right">
+                                <button class="btn btn-danger btn-xs"
+                                        ng-click="vm.setUserProject(user)"
+                                        data-toggle="modal"
+                                        data-target="#deleteUserProject">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Удалить
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><!--box-body-->
+        </div><!--box-->
+
+    </section><!--content-->
+
+
+    <div class="modal fade" id="deleteUserProject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Удаление пользователя с проекта</h4>
+                </div>
+                <div class="modal-body text-center">
+                    Вы действительно хотите удалить пользователя <strong>"{{ vm.user.first_name }} {{ vm.user.last_name }}"</strong> с проекта?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                        Отмена
+                    </button>
+
+                    <button type="button" ng-click="vm.removeUserProject()" class="btn btn-danger">
+                        <i class="fa fa-trash" aria-hidden="true"></i> Удалить
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>

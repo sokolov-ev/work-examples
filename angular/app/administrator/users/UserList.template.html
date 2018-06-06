@@ -1,0 +1,98 @@
+<div class="manager-developers">
+    <section class="content-header">
+        <h1>
+            Список пользователей
+        </h1>
+
+        <button type="button"
+                class="btn btn-success btn-sm pull-right"
+                data-toggle="modal"
+                data-target="#createUser"
+                ng-click="vm.clearUser()">
+                    Добавить пользователя
+        </button>
+    </section>
+
+    <section class="content">
+        <div class="padding-block-2-0"> </div>
+
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table st-table="vm.users" st-pipe="vm.ajaxFilter" class="table table-hover table-striped table-bordered" refresh-table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th st-sort="last_name" st-sort-default="true">Фамилия</th>
+                            <th st-sort="first_name">Имя</th>
+                            <th st-sort="email">E-mail</th>
+                            <th>Проекты</th>
+                            <th st-sort="role">Тип пользователя</th>
+                            <th class="text-center">Действия</th>
+                        </tr>
+                        <tr>
+                            <th> </th>
+                            <th><input class="form-control" st-search="last_name"/></th>
+                            <th><input class="form-control" st-search="first_name"/></th>
+                            <th><input class="form-control" st-search="email"/></th>
+                            <th> </th>
+                            <th>
+                                <select class="form-control" st-search="role" />
+                                    <option value=""> </option>
+                                    <option value="blocked">Удален</option>
+                                    <option value="client">Клиент</option>
+                                    <option value="developer">Разработчик</option>
+                                    <option value="manager">Менеджер</option>
+                                    <option value="admin">Админ</option>
+                                </select>
+                            </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{ 'danger': user.role == 'blocked' }" ng-repeat="user in vm.users">
+                            <td>{{ $index + 1 }}</td>
+                            <td ng-class="{'selected-object':(user.role == 'developer')}" ng-click="vm.viewWorkdiary(user.id, user.role, user.projects)">
+                                {{ user.last_name }}
+                            </td>
+                            <td ng-class="{'selected-object':(user.role == 'developer')}" ng-click="vm.viewWorkdiary(user.id, user.role, user.projects)">
+                                {{ user.first_name }}
+                            </td>
+                            <td ng-class="{'selected-object':(user.role == 'developer')}" ng-click="vm.viewWorkdiary(user.id, user.role, user.projects)">
+                                {{ user.email }}
+                            </td>
+                            <td ng-class="{'selected-object':(user.role == 'developer')}" ng-click="vm.viewUserProjects(user.id, user.projects)" title="{{ user.projects_tooltip }}">
+                                {{ user.projects_title }}
+                            </td>
+                            <td>
+                                <span>{{vm.typeUsers[user.role]}}</span>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-success btn-xs"
+                                        ng-click="vm.editUser(user)"
+                                        data-toggle="modal"
+                                        data-target="#editUser">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs"
+                                        ng-click="vm.setUser(user)"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"
+                                        ng-show="user.role !== 'blocked'">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- loading a modal window for adding a user -->
+    <div ui-view="userCreate"></div>
+    <!-- loading a modal window for editing a user -->
+    <div ui-view="userEdit"></div>
+    <!-- loading a modal window for removal a user -->
+    <div ui-view="userDelete"></div>
+
+</div><!--container-fluid-->

@@ -1,0 +1,94 @@
+<div class="modal fade" id="createUser" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Добавить пользователя</h4>
+            </div>
+            <div class="modal-body">
+
+               <form ng-submit="vm.createForm(vm.user)" name="vm.FormCreate" id="formCreate">
+                    <div class="form-group" ng-class="{ 'has-error': vm.FormCreate.email.$touched && vm.FormCreate.email.$invalid }">
+                        <label>E-mail:</label>
+
+                        <input type="email" class="form-control" name="email" ng-model="vm.user.email" required>
+
+                        <div ng-messages="vm.FormCreate.email.$touched && vm.FormCreate.email.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': vm.FormCreate.first_name.$touched && vm.FormCreate.first_name.$invalid }">
+                        <label>Имя:</label>
+
+                        <input type="text" class="form-control" name="first_name" ng-model="vm.user.first_name" required>
+
+                        <div ng-messages="vm.FormCreate.first_name.$touched && vm.FormCreate.first_name.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': vm.FormCreate.last_name.$touched && vm.FormCreate.last_name.$invalid }">
+                        <label>Фамилия:</label>
+
+                        <input type="text" class="form-control" name="last_name" ng-model="vm.user.last_name" required>
+
+                        <div ng-messages="vm.FormCreate.last_name.$touched && vm.FormCreate.last_name.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Тип пользователя:</label>
+
+                        <select class="form-control" name="role" ng-model="vm.user.role">
+                            <option value="blocked">Удален</option>
+                            <option value="client">Клиент</option>
+                            <option value="developer">Разработчик</option>
+                            <option value="manager">Менеджер</option>
+                            <option value="admin">Админ</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': vm.FormCreate.password.$touched && vm.FormCreate.password.$invalid }">
+                        <label>Пароль:</label>
+
+                        <input type="password" class="form-control" name="password" ng-model="vm.user.password" required />
+
+                        <div ng-messages="vm.FormCreate.password.$touched && vm.FormCreate.password.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': vm.FormCreate.confirmPassword.$touched && vm.FormCreate.confirmPassword.$invalid }">
+                        <label>Подтвердите пароль:</label>
+
+                        <input type="password"
+                               class="form-control"
+                               name="confirmPassword"
+                               ng-model="vm.user.confirmPassword"
+                               data-confirm-password="vm.user.password"
+                               required />
+
+                        <div ng-messages="vm.FormCreate.confirmPassword.$touched && vm.FormCreate.confirmPassword.$error">
+                            <div ng-messages-include="/app/partials/validation-messages.template.html"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    Отмена
+                </button>
+
+                <button type="submit" class="btn btn-success" form="formCreate">
+                    Добавить
+                </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

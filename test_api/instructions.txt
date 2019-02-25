@@ -1,0 +1,10 @@
+All additions/enhancements to code should include a test for the scenario.
+
+Account create API:
+1) Improve /account/create API so it only accepts POST requests.
+2) Improve /account/create API so it returns an error if account with same email exists (i.e. make email unique in database)
+error response should be json: {"err": "email already exists"}
+
+Notifications API (each task should be in separate file):
+1) Add a POST /notifications API that adds a notification to the database: accountId, name and color
+2) Add a GET /notifications API that returns the notifications for given accountId

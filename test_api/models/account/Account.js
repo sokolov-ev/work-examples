@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+const { Schema, model } = mongoose;
 
-const Account = new mongoose.Schema({
-	email: {type: String, required: true},
-	name: {type: String},
-	age: {type: Number},
+const accountShema = new Schema({
+	email: { type: String, required: true },
+	name: { type: String },
+	age: { type: Number },
 
-}, {timestamps: true});
+	notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }],
 
-module.exports = mongoose.model('Account', Account);
+}, { timestamps: true });
+
+module.exports = model('Account', accountShema);

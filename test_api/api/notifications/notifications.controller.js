@@ -1,4 +1,7 @@
-const Notifications = require('../../models/account/Notifications');
+'use strict';
+
+const Account = require('../../models/account/Account');
+const Notification = require('../../models/account/Notification');
 
 module.exports = {
     create,
@@ -13,14 +16,17 @@ async function create(req, res) {
             return res.json({ err: 'Missing account id' });
         }
 
-        let notification = await Notifications.findOne({ accountId });
+        const account = await Account.findById(accountId);
 
-        if (notification) {
-            return res.json({ err: 'The notification for this account already exists' });
+        if (!account) {
+            return res.json({ err: 'Account not found' });
         }
 
-        notification = new Notifications({ accountId, name, color });
+        const notification = new Notification({ name, color });
         await notification.save();
+
+        account.notifications.push(notification);
+        await account.save();
 
         return res.json({ message: 'success' });
     } catch (err) {
@@ -28,7 +34,7 @@ async function create(req, res) {
 
         return res.status(500).json({ message: 'Internal Server Error' });
     }
-};
+}
 
 async function getNotification(req, res) {
     try {
@@ -38,18 +44,16 @@ async function getNotification(req, res) {
             return res.json({ err: 'Missing account id' });
         }
 
-        const notification = await Notifications.findOne({ accountId });
+        const account = await Account.findById(accountId).populate('notifications');
 
-        if (notification) {
-            return res.json({ data: notification });
+        if (account.notifications) {
+            return res.json({ data: account.notifications });
         }
 
-        return res.json({ err: 'Notification not found' });
+        return res.json({ err: 'Notifications not found' });
     } catch (err) {
         console.error(err);
 
         return res.status(500).json({ message: 'Internal Server Error' });
     }
-};
-
-
+}

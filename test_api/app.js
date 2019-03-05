@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/codeTest', {
 	autoReconnect: true,
 	reconnectTries: 60,
-	reconnectInterval: 10000
+	reconnectInterval: 10000,
+	useNewUrlParser: true,
 });
+
+// mongoose.set('debug', true);
 
 const app = express();
 app.listen(3000);

@@ -1,20 +1,29 @@
 const chai = require('chai');
-chai.use(require('chai-http'));
-const expect = require('chai').expect;
+const chaiHttp = require('chai-http');
+const { expect } = chai;
+
 const app = require('../../app');
+const Account = require('../../models/account/Account');
+const Notification = require('../../models/account/Notification');
 
-const Notifications = require('../../models/account/Notifications');
+chai.use(chaiHttp);
 
-describe('API testing for notifications', () => {
-    before(async () => {
-        await Notifications.remove();
-    });
+let user = null;
+
+before(async () => {
+    user = await new Account({
+        email: 'test@mail.com',
+        name: 'test_name',
+        age: 54,
+    }).save();
+});
+
+describe('Notifications API', () => {
 
     describe('POST /notifications', () => {
-
         it('Should add notification to database', async() => {
             const data = {
-                accountId: 54,
+                accountId: user._id,
                 name: 'test',
                 color: 'red',
             };
@@ -22,25 +31,10 @@ describe('API testing for notifications', () => {
             const res = await chai.request(app).post('/notifications').send(data);
 
             expect(res).to.have.status(200);
-            expect(res).to.be.json;
             expect(res.body).to.have.property('message');
 
-            const notification = await Notifications.findOne({ accountId: data.accountId });
-            expect(notification).to.exist;
-        });
-
-        it('Should return an error that the notification for this account already exists', async() => {
-            const data = {
-                accountId: 54,
-                name: 'test',
-                color: 'red',
-            };
-
-            const res = await chai.request(app).post('/notifications').send(data);
-
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.have.property('err');
+            const account = await Account.findById(user._id).populate('notifications');
+            expect(account.notifications).to.be.an('array').to.have.lengthOf(1);
         });
 
         it('Should return an error informing that accountId is missing', async() => {
@@ -49,20 +43,19 @@ describe('API testing for notifications', () => {
             const res = await chai.request(app).post('/notifications').send(data);
 
             expect(res).to.have.status(200);
-            expect(res).to.be.json;
             expect(res.body).to.have.property('err');
         });
-
     });
 
     describe('GET /notifications/:accountId', () => {
 
         it('Should return the data about notification', async() => {
-            const res = await chai.request(app).get('/notifications/54');
+            const res = await chai.request(app).get(`/notifications/${ user._id }`);
 
             expect(res).to.have.status(200);
-            expect(res).to.be.json;
             expect(res.body).to.have.property('data');
+            expect(res.body.data).to.be.an('array');
+            expect(res.body.data[0]).to.have.property('name', 'test');
         });
 
         it('Should return error no such router', async() => {
@@ -71,17 +64,11 @@ describe('API testing for notifications', () => {
             expect(res).to.have.status(404);
         });
 
-        it('Should return an error informing that the notification wasn\'t found', async() => {
-            const res = await chai.request(app).get('/notifications/00002');
-
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.have.property('err');
-        });
-
     });
 
-    after(async () => {
-        await Notifications.remove();
-    });
+});
+
+after(async () => {
+    await Notification.remove();
+    await Account.remove();
 });

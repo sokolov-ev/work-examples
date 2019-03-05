@@ -4,13 +4,9 @@ const expect = require('chai').expect;
 const app = require('../../app');
 
 const Account = require('../../models/account/Account');
+let accountId = null;
 
-describe('API testing for account', () => {
-	before(async () => {
-		await Account.remove();
-		const accountId = null;
-	});
-
+describe('Account API', () => {
 	describe('POST /account/create', () => {
 
 		it('Should add account to database', async() => {
@@ -18,8 +14,10 @@ describe('API testing for account', () => {
 				email: 'test@gmail.com',
 				name: 'Testo',
 				age: 56
-			};
-			const res = await chai.request(app).post('/account/create').send(data);
+            };
+
+            const res = await chai.request(app).post('/account/create').send(data);
+
 			expect(res).to.have.status(200);
 			expect(res).to.be.json;
 			expect(res.body).to.have.property('message');
@@ -35,8 +33,10 @@ describe('API testing for account', () => {
 				email: 'test@gmail.com',
 				name: 'Testo',
 				age: 56
-			};
-			const res = await chai.request(app).post('/account/create').send(data);
+            };
+
+            const res = await chai.request(app).post('/account/create').send(data);
+
 			expect(res).to.have.status(200);
 			expect(res).to.be.json;
 			expect(res.body).to.have.property('err');
@@ -47,7 +47,8 @@ describe('API testing for account', () => {
 	describe('GET /account/create', () => {
 
 		it('Should return an error get API wasn\'t found', async() => {
-			const res = await chai.request(app).get('/account/create');
+            const res = await chai.request(app).get('/account/create');
+
 			expect(res).to.have.status(404);
 		});
 
@@ -60,7 +61,8 @@ describe('API testing for account', () => {
 				id: accountId,
 				email: 'test2@gmail.com',
 			};
-			const res = await chai.request(app).put('/account/create').send(data);
+            const res = await chai.request(app).put('/account/create').send(data);
+
 			expect(res).to.have.status(404);
 		});
 
@@ -71,14 +73,16 @@ describe('API testing for account', () => {
 		it('Should return an error delete API wasn\'t found', async() => {
 			const data = {
 				id: accountId,
-			};
-			const res = await chai.request(app).delete('/account/create').send(data);
+            };
+
+            const res = await chai.request(app).delete('/account/create').send(data);
+
 			expect(res).to.have.status(404);
 		});
 
 	});
+});
 
-	after(async () => {
-		await Account.remove();
-	});
+after(async () => {
+    await Account.remove();
 });
